@@ -2,12 +2,14 @@ require('dotenv').config()
 const { Telegraf } = require('telegraf')
 const { message } = require('telegraf/filters')
 const fs = require('fs')
-const express = require('express')
+const http = require('http')
 
-const app = express()
-    app.get('/', (req, res) => {
-        res.send('Hello world from express + telegraf')
-    })
+http.createServer((req, res) => {
+    if (req.path == '/') {
+        res.end('Hello')
+        console.log('jhhjkl')
+    }
+}).listen(3000)
 
 const bot = new Telegraf(process.env.TOKEN)
     bot.command('start', ctx => {
@@ -24,11 +26,12 @@ const bot = new Telegraf(process.env.TOKEN)
             ctx.reply(`لینک نده @${ctx.message.from.username}`)
         }
     })
-    bot.launch()
+    bot.launch({
+        webhook: {
+            domain: 'https://api.telegram.org/bot6678827346:AAE-iuGHKNjLyWfRIXCMbeohPIulPOhMrjc/getMe?url=https://teltestbot.liara.run/',
+            port: 8443
+        }
+    })
 
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
-
-app.listen(3000, () => {
-    console.log('App listening on port 3000')
-})
