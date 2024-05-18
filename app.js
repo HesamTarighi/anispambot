@@ -28,7 +28,7 @@ const bot = new Telegraf(process.env.TOKEN)
     })
     bot.launch({
         webhook: {
-            domain: 'https://api.telegram.org/bot6678827346:AAE-iuGHKNjLyWfRIXCMbeohPIulPOhMrjc/getMe?url=https://teltestbot.liara.run/',
+            domain: 'https://api.telegram.org/bot6678827346:AAE-iuGHKNjLyWfRIXCMbeohPIulPOhMrjc/getMe?url=https://taupe-vulture-kilt.cyclic.app',
             port: 8443
         }
     })
