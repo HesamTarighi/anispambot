@@ -2,14 +2,11 @@ require('dotenv').config()
 const { Telegraf } = require('telegraf')
 const { message } = require('telegraf/filters')
 const fs = require('fs')
-const http = require('http')
+const express = require('express')
 
-http.createServer((req, res) => {
-    if (req.path == '/') {
-        res.end('Hello')
-        console.log('jhhjkl')
-    }
-}).listen(3000)
+const app = express()
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 const bot = new Telegraf(process.env.TOKEN)
     bot.command('start', ctx => {
@@ -26,12 +23,18 @@ const bot = new Telegraf(process.env.TOKEN)
             ctx.reply(`لینک نده @${ctx.message.from.username}`)
         }
     })
-    bot.launch({
-        webhook: {
-            domain: 'https://api.telegram.org/bot6678827346:AAE-iuGHKNjLyWfRIXCMbeohPIulPOhMrjc/getMe?url=https://taupe-vulture-kilt.cyclic.app',
-            port: 8443
-        }
-    })
 
-process.once('SIGINT', () => bot.stop('SIGINT'))
-process.once('SIGTERM', () => bot.stop('SIGTERM'))
+app.get('/', (req, res) => {
+    res.send('Hello world')
+    console.log('get')
+})
+
+app.post('/', (req, res) => {
+    console.log(req.body.update_id)
+})
+
+app.listen(3000, '0.0.0.0')
+
+bot.launch()
+// process.once('SIGINT', () => bot.stop('SIGINT'))
+// process.once('SIGTERM', () => bot.stop('SIGTERM'))
